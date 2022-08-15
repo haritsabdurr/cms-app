@@ -66,7 +66,7 @@ const BannerInput = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.Data);
+        console.log(res);
         setNewData(res.data.Data);
       });
   };
@@ -75,6 +75,7 @@ const BannerInput = () => {
     fetchBanner();
   }, [isSubmit]);
 
+  //Validate
   const validate = (values) => {
     const errors = {};
 

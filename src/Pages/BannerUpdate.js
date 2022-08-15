@@ -11,7 +11,7 @@ const BannerUpdate = ({ Data }) => {
     alt: Data.alt,
     link: Data.link,
   });
-  const [newData, getNewData] = useState([]);
+  const [newData, setNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
 
@@ -66,7 +66,7 @@ const BannerUpdate = ({ Data }) => {
       })
       .then((res) => {
         console.log(res.data.Data);
-        getNewData(res.data.Data);
+        setNewData(res.data.Data);
       });
   };
 

@@ -19,7 +19,7 @@ const Kategori = () => {
 
   //   const initialValues = { fName: '', lName: '', email: '', password: '' };
   //   const [formValues, setFormValues] = useState(initialValues);
-  const [newData, getNewData] = useState([]);
+  const [newData, setNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
 
@@ -78,7 +78,7 @@ const Kategori = () => {
       })
       .then((res) => {
         console.log(res.data.Data);
-        getNewData(res.data.Data);
+        setNewData(res.data.Data);
       });
   };
 
@@ -86,6 +86,7 @@ const Kategori = () => {
     fetchKategori();
   }, [isSubmit]);
 
+  //Validate
   const validate = (values) => {
     const errors = {};
 
@@ -262,6 +263,7 @@ const Kategori = () => {
         <table className='table w-full'>
           <thead>
             <tr>
+              <th>ID</th>
               <th>Kode Produk</th>
               <th>Kategori Produk</th>
               <th>Nama Produk</th>
@@ -276,6 +278,7 @@ const Kategori = () => {
           <tbody>
             {newData.map((Data, index) => (
               <tr key={Data.id}>
+                <td>{Data.id}</td>
                 <td>{Data.kode_produk}</td>
                 <td>{Data.kategori_produk}</td>
                 <td>{Data.nama_produk}</td>
