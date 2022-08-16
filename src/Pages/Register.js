@@ -8,15 +8,14 @@ const Register = () => {
   const url = `http://192.168.17.144:8888/users/signup`;
 
   const [data, setData] = useState({
-    fname: '',
-    lname: '',
+    first_name: '',
+    last_name: '',
     phone: '',
+    user_type: '',
     email: '',
-    password: '',
+    Password: '',
   });
 
-  //   const initialValues = { fName: '', lName: '', email: '', password: '' };
-  //   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
 
@@ -32,11 +31,11 @@ const Register = () => {
 
     axios
       .post(url, {
-        fname: data.fname,
-        lname: data.lname,
+        first_name: data.first_name,
+        last_name: data.last_name,
         phone: data.phone,
         email: data.email,
-        password: data.password,
+        Password: data.Password,
       })
       .then((response) => response.json())
       .then((data) => setData(data));
@@ -59,26 +58,31 @@ const Register = () => {
     const regex =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-    if (!values.fname) {
-      errors.fname = 'Field is required!';
+    if (!values.first_name) {
+      errors.first_name = 'Field is required!';
     }
-    if (!values.lname) {
-      errors.lname = 'Field is required!';
+    if (!values.last_name) {
+      errors.last_name = 'Field is required!';
     }
     if (!values.phone) {
       errors.phone = 'Field is required!';
+    }
+    if (values.user_type !== 'ADMIN') {
+      errors.user_type = 'Field is required!';
+    } else if (values.user_type !== 'USER') {
+      errors.user_type = 'Field is required!';
     }
     if (!values.email) {
       errors.email = 'Email is required!';
     } else if (!regex.test(values.email)) {
       errors.email = 'Email is invalid!';
     }
-    if (!values.password) {
-      errors.password = 'Password is required!';
-    } else if (values.password.length < 4) {
-      errors.password = 'Password must be more than 4 character';
-    } else if (values.password.length > 12) {
-      errors.password = 'Password cannot be more than 12 character';
+    if (!values.Password) {
+      errors.Password = 'Password is required!';
+    } else if (values.Password.length < 8) {
+      errors.Password = 'Password must be more than 8 character';
+    } else if (values.Password.length > 12) {
+      errors.Password = 'Password cannot be more than 12 character';
     }
     return errors;
   };
@@ -95,13 +99,15 @@ const Register = () => {
             </label>
             <input
               type='text'
-              name='fname'
+              name='first_name'
               placeholder='first name'
               className='input input-bordered w-full max-w-sm'
-              value={data.fname}
+              value={data.first_name}
               onChange={(e) => handleChange(e)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.fname}</p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>
+              {formErrors.first_name}
+            </p>
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
@@ -109,13 +115,15 @@ const Register = () => {
             </label>
             <input
               type='text'
-              name='lname'
+              name='last_name'
               placeholder='last name'
               className='input input-bordered w-full max-w-sm'
-              value={data.lname}
+              value={data.last_name}
               onChange={(e) => handleChange(e)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.lname}</p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>
+              {formErrors.last_name}
+            </p>
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
@@ -129,8 +137,53 @@ const Register = () => {
               value={data.phone}
               onChange={(e) => handleChange(e)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.lname}</p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.phone}</p>
           </div>
+          <div className='flex flex-col justify-center items-center'>
+            <label className='label'>
+              <span className='label-text'>User Type</span>
+            </label>
+            <input
+              type='text'
+              name='user_type'
+              placeholder='ADMIN or USER'
+              className='input input-bordered w-full max-w-sm'
+              value={data.user_type}
+              onChange={(e) => handleChange(e)}
+            />
+            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.phone}</p>
+          </div>
+          {/* <div className='flex flex-col justify-center items-center'>
+            <label className='label'>
+              <span className='label-text'>{data.user_type}</span>
+            </label>
+            <div className='flex gap-4'>
+              <input
+                type='radio'
+                name='user_type'
+                placeholder='ADMIN'
+                className='radio radio-primary'
+                id='radioAdmin'
+                value='ADMIN'
+                onChange={(e) => handleChange(e)}
+              />
+              <label for='radioAdmin'>ADMIN</label>
+              <input
+                type='radio'
+                name='user_type'
+                placeholder='USER'
+                className='radio radio-primary'
+                id='radioUser'
+                value='USER'
+                onChange={(e) => handleChange(e)}
+                // onClick={() => setData.user_type('USER')}
+              />
+              <label for='radioUser'>USER</label>
+            </div>
+            <p className='text-xs text-red-500 ml-3 mt-1'>
+              {formErrors.user_type}
+            </p>
+          </div> */}
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
               <span className='label-text'>Email</span>
@@ -151,14 +204,14 @@ const Register = () => {
             </label>
             <input
               type='password'
-              name='password'
+              name='Password'
               placeholder='password'
               className='input input-bordered w-full max-w-sm'
-              value={data.password}
+              value={data.Password}
               onChange={(e) => handleChange(e)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
-              {formErrors.password}
+              {formErrors.Password}
             </p>
           </div>
           <div className='flex justify-center items-center py-6 mt-2'>
