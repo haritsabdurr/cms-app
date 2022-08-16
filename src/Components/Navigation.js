@@ -56,9 +56,16 @@ function Navigation() {
               >
                 <a>Kategori</a>
               </li>
+              <li
+                onClick={() => {
+                  navigate('/users');
+                }}
+              >
+                <a>User</a>
+              </li>
             </ul>
           </div>
-          <a className='btn btn-ghost normal-case text-xl'>App</a>
+          <a className='btn btn-ghost normal-case text-xl'>CMS</a>
         </div>
         <div className='navbar-center hidden lg:flex'>
           <ul className='menu menu-horizontal p-0'>
@@ -89,6 +96,13 @@ function Navigation() {
               }}
             >
               <a>Kategori</a>
+            </li>
+            <li
+              onClick={() => {
+                navigate('/users');
+              }}
+            >
+              <a>User</a>
             </li>
           </ul>
         </div>

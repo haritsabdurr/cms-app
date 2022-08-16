@@ -34,11 +34,13 @@ const Register = () => {
         first_name: data.first_name,
         last_name: data.last_name,
         phone: data.phone,
+        user_type: data.user_type,
         email: data.email,
         Password: data.Password,
       })
       .then((response) => response.json())
-      .then((data) => setData(data));
+      .then((data) => setData(data))
+      .catch((error) => alert(error.message));
 
     // e.preventDefault();
     // const response = getDataFromArya()
@@ -67,9 +69,7 @@ const Register = () => {
     if (!values.phone) {
       errors.phone = 'Field is required!';
     }
-    if (values.user_type !== 'ADMIN') {
-      errors.user_type = 'Field is required!';
-    } else if (values.user_type !== 'USER') {
+    if (!values.user_type) {
       errors.user_type = 'Field is required!';
     }
     if (!values.email) {
@@ -139,7 +139,7 @@ const Register = () => {
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.phone}</p>
           </div>
-          <div className='flex flex-col justify-center items-center'>
+          {/* <div className='flex flex-col justify-center items-center'>
             <label className='label'>
               <span className='label-text'>User Type</span>
             </label>
@@ -151,11 +151,13 @@ const Register = () => {
               value={data.user_type}
               onChange={(e) => handleChange(e)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.phone}</p>
-          </div>
-          {/* <div className='flex flex-col justify-center items-center'>
+            <p className='text-xs text-red-500 ml-3 mt-1'>
+              {formErrors.user_type}
+            </p>
+          </div> */}
+          <div className='flex flex-col justify-center items-center'>
             <label className='label'>
-              <span className='label-text'>{data.user_type}</span>
+              <span className='label-text'>User Type</span>
             </label>
             <div className='flex gap-4'>
               <input
@@ -183,7 +185,7 @@ const Register = () => {
             <p className='text-xs text-red-500 ml-3 mt-1'>
               {formErrors.user_type}
             </p>
-          </div> */}
+          </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
               <span className='label-text'>Email</span>

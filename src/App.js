@@ -11,6 +11,7 @@ import Register from './Pages/Register';
 import BannerInput from './Pages/BannerInput';
 import Kategori from './Pages/Kategori';
 import BannerUpdate from './Pages/BannerUpdate';
+import User from './Pages/User';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='/banner' element={<BannerInput />} />
         <Route path='/banner/:bannerId' element={<BannerUpdate />} />
         <Route path='/kategori' element={<Kategori />} />
+        <Route path='/users' element={<User />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
       </Routes>
