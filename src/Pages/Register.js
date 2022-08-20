@@ -39,6 +39,7 @@ const Register = () => {
         Password: data.Password,
       })
       .then((response) => response.json())
+      .then(alert('Registrasi Berhasil'))
       .then((data) => setData(data))
       .catch((error) => alert(error.message));
 
@@ -216,7 +217,12 @@ const Register = () => {
               {formErrors.Password}
             </p>
           </div>
-          <div className='flex justify-center items-center py-6 mt-2'>
+          <div
+            className='flex justify-center items-center py-6 mt-2'
+            onClick={() => {
+              navigate('/login');
+            }}
+          >
             <button>
               <a className='btn btn-primary px-3 py-1'>Submit</a>
             </button>

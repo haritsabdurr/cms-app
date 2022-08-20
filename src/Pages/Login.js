@@ -7,7 +7,7 @@ import jwt_decode from 'jwt-decode';
 const Login = () => {
   let navigate = useNavigate();
 
-  const url = `http://192.168.17.144:8888/users/login`;
+  const url = `http://192.168.17.144:8888/login`;
   const [data, setData] = useState({ email: '', password: '' });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
@@ -38,7 +38,7 @@ const Login = () => {
         Cookies.set('refToken', data.data.refresh_token);
         console.log(decoded);
 
-        navigate('/banner');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err.message);

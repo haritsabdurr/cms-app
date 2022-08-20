@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 
 const User = () => {
@@ -17,7 +18,7 @@ const User = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.user_items);
         setNewData(res.data.user_items);
       });
   };
@@ -43,33 +44,35 @@ const User = () => {
             </tr>
           </thead>
           <tbody>
-            {newData?.map((data, index) => (
-              <tr key={data?.user_id}>
-                <td>{data?.user_id}</td>
-                <td>{data?.first_name}</td>
-                <td>{data?.last_name}</td>
-                <td>{data?.email}</td>
-                <td>{data?.phone}</td>
-                <td>{data?.user_type}</td>
+            {newData?.map((Data, index) => (
+              <tr key={Data?.user_id}>
+                <td>{Data?.user_id}</td>
+                <td>{Data?.first_name}</td>
+                <td>{Data?.last_name}</td>
+                <td>{Data?.email}</td>
+                <td>{Data?.phone}</td>
+                <td>{Data?.user_type}</td>
                 <td>
                   <div className='flex gap-4'>
-                    <Tooltip title='Edit' arrow>
-                      <div className='cursor-pointer hover:text-sky-400'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5'
-                          viewBox='0 0 20 20'
-                          fill='currentColor'
-                        >
-                          <path d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z' />
-                          <path
-                            fillRule='evenodd'
-                            d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-                            clipRule='evenodd'
-                          />
-                        </svg>
-                      </div>
-                    </Tooltip>
+                    <Link to={`/users/${Data.user_id}`}>
+                      <Tooltip title='Edit' arrow>
+                        <div className='cursor-pointer hover:text-sky-400'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            className='h-5 w-5'
+                            viewBox='0 0 20 20'
+                            fill='currentColor'
+                          >
+                            <path d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z' />
+                            <path
+                              fillRule='evenodd'
+                              d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+                              clipRule='evenodd'
+                            />
+                          </svg>
+                        </div>
+                      </Tooltip>
+                    </Link>
                     <Tooltip title='Delete' arrow>
                       <div className='cursor-pointer hover:text-red-400'>
                         <svg

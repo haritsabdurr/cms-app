@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function Navigation() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const [token, setToken] = useState('');
+
+  const logoutHandler = () => {
+    Cookies.remove('token');
+    Cookies.remove('refToken');
+    navigate('/');
+  };
+
+  useEffect(() => {
+    setToken(Cookies.get('token'));
+    setToken(Cookies.get('refToken'));
+  }, [logoutHandler]);
+
   return (
     <div className='px-6 md:px-24'>
       <div className='navbar bg-base-100'>
@@ -107,14 +121,20 @@ function Navigation() {
           </ul>
         </div>
         <div className='navbar-end'>
-          <a
-            className='btn btn-primary'
-            onClick={() => {
-              navigate('/login');
-            }}
-          >
-            Login
-          </a>
+          {token ? (
+            <a className='btn btn-danger' onClick={logoutHandler}>
+              Logout
+            </a>
+          ) : (
+            <a
+              className='btn btn-primary'
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              Login
+            </a>
+          )}
         </div>
       </div>
     </div>

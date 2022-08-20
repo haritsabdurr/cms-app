@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
 
 const BannerUpdate = ({ Data }) => {
-  const urlGet = `http://192.168.17.144:8888/banners/${Data.id}`;
-  const urlPut = `http://192.168.17.144:8888/banner/:bannerId`;
+  //url
+  const urlGet = `http://192.168.17.144:8888/banner/`;
+  const urlPut = `http://192.168.17.144:8888/banners/`;
 
   const [data, setData] = useState({
-    banner: Data.banner,
-    alt: Data.alt,
-    link: Data.link,
+    banner: '',
+    alt: '',
+    link: '',
   });
+
   const [newData, setNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
@@ -29,7 +32,7 @@ const BannerUpdate = ({ Data }) => {
     const kue = Cookies.get('token');
 
     axios
-      .post(
+      .put(
         urlPut,
         {
           banner: data.banner,
@@ -55,11 +58,13 @@ const BannerUpdate = ({ Data }) => {
     }
   }, [formErrors]);
 
+  const { id } = useParams();
+
   // GET
-  const fetchBanner = () => {
+  const fetchBanner = (Data) => {
     const kue = Cookies.get('token');
     axios
-      .get(urlGet, {
+      .get(`${urlGet}/${id}`, {
         headers: {
           Authorization: `Bearer ${kue}`,
         },
@@ -72,7 +77,7 @@ const BannerUpdate = ({ Data }) => {
 
   useEffect(() => {
     fetchBanner();
-  }, [isSubmit]);
+  }, []);
 
   const validate = (values) => {
     const errors = {};
@@ -104,7 +109,7 @@ const BannerUpdate = ({ Data }) => {
               name='banner'
               placeholder='banner'
               className='input input-bordered w-full max-w-sm'
-              value={data.banner}
+              value={Data.banner}
               onChange={(e) => handleChange(e)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
@@ -120,7 +125,7 @@ const BannerUpdate = ({ Data }) => {
               name='alt'
               placeholder='alt'
               className='input input-bordered w-full max-w-sm'
-              value={data.alt}
+              value={Data.alt}
               onChange={(e) => handleChange(e)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.alt}</p>
@@ -134,7 +139,7 @@ const BannerUpdate = ({ Data }) => {
               name='link'
               placeholder='link'
               className='input input-bordered w-full max-w-sm'
-              value={data.link}
+              value={Data.link}
               onChange={(e) => handleChange(e)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.link}</p>

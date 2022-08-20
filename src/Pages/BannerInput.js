@@ -5,10 +5,9 @@ import Tooltip from '@mui/material/Tooltip';
 import { useNavigate, Link } from 'react-router-dom';
 
 const BannerInput = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const baseUrl = `http://192.168.17.144:8888/auth`;
 
-  const urlPost = `http://192.168.17.144:8888/banner`;
-  const urlGet = `http://192.168.17.144:8888/banners`;
   const [data, setData] = useState({
     banner: '',
     alt: '',
@@ -29,11 +28,11 @@ const BannerInput = () => {
     setFormErrors(validate(data));
     setIsSumbit((prev) => !prev);
 
-    const kue = Cookies.get('refToken');
+    const kue = Cookies.get('token');
 
     axios
       .post(
-        urlPost,
+        `${baseUrl}/banner`,
         {
           banner: data.banner,
           alt: data.alt,
@@ -41,14 +40,12 @@ const BannerInput = () => {
         },
         {
           headers: {
-            Token: `${kue}`,
+            Authorization: `Bearer ${kue}`,
           },
         }
       )
       .then((response) => response.json())
-      .then(alert('Data Berhasil Di Input!'))
-      .catch((error) => alert(error.message));
-    // .then((data) => {});
+      .then(alert('Data Berhasil Di Input!'));
   };
 
   useEffect(() => {
@@ -60,11 +57,11 @@ const BannerInput = () => {
 
   // GET
   const fetchBanner = () => {
-    const kueBaru = Cookies.get('refToken');
+    const kueBaru = Cookies.get('token');
     axios
-      .get(urlGet, {
+      .get(`${baseUrl}/banners`, {
         headers: {
-          Token: `${kueBaru}`,
+          Authorization: `Bearer ${kueBaru}`,
         },
       })
       .then((res) => {
@@ -76,6 +73,31 @@ const BannerInput = () => {
   useEffect(() => {
     fetchBanner();
   }, [isSubmit]);
+
+  useEffect(() => {
+    const isLogin = Cookies.get('token');
+    if (!isLogin) {
+      alert('Anda harus login!');
+      navigate('/login');
+    }
+  }, []);
+
+  //DELETE
+  const deleteUsers = async (id) => {
+    const setCookies = Cookies.get('token');
+    try {
+      await axios.delete(`${baseUrl}/banner/${id}`, {
+        headers: {
+          Authorization: `Bearer ${setCookies}`,
+        },
+      });
+      alert('data berhasil di hapus');
+      fetchBanner();
+    } catch (error) {
+      alert('Anda harus login');
+      navigate('/login');
+    }
+  };
 
   //Validate
   const validate = (values) => {
@@ -165,14 +187,14 @@ const BannerInput = () => {
           </thead>
           <tbody>
             {newData?.map((Data, index) => (
-              <tr key={Data?.bannerid}>
-                <td>{Data?.bannerid}</td>
+              <tr key={Data?.id}>
+                <td>{Data?.id}</td>
                 <td>{Data?.banner}</td>
                 <td>{Data?.alt}</td>
                 <td>{Data?.link}</td>
                 <td>
                   <div className='flex gap-4'>
-                    <Link to={`/banner/${Data?.id}`} state={{ data: Data }}>
+                    <Link to={`/banner/${Data?.id}`} state={{ Data }}>
                       <Tooltip title='Edit' arrow>
                         <div className='cursor-pointer hover:text-sky-400'>
                           <svg
@@ -192,7 +214,11 @@ const BannerInput = () => {
                       </Tooltip>
                     </Link>
                     <Tooltip title='Delete' arrow>
-                      <div className='cursor-pointer hover:text-red-400'>
+                      <div
+                        className='cursor-pointer hover:text-red-400'
+                        onClick={() => deleteUsers(Data.id)}
+                        // onClick={deleteBanner()}
+                      >
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           className='h-5 w-5'

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Tooltip from '@mui/material/Tooltip';
+import { useNavigate } from 'react-router-dom';
 
 const Meta = () => {
-  const urlPost = `http://192.168.17.144:8888/meta`;
-  const urlGet = `http://192.168.17.144:8888/metas`;
+  const navigate = useNavigate();
+  const baseUrl = `http://192.168.17.144:8888/auth`;
+
   const [data, setData] = useState({
     meta_title: '',
     meta_url: '',
@@ -25,11 +27,11 @@ const Meta = () => {
     setFormErrors(validate(data));
     setIsSumbit((prev) => !prev);
 
-    const kue = Cookies.get('refToken');
+    const kue = Cookies.get('token');
 
     axios
       .post(
-        urlPost,
+        `${baseUrl}/meta`,
         {
           meta_title: data.meta_title,
           meta_url: data.meta_url,
@@ -37,13 +39,12 @@ const Meta = () => {
         },
         {
           headers: {
-            Token: `${kue}`,
+            Authorization: `Bearer ${kue}`,
           },
         }
       )
       .then(console.log('Data berhasil di input!'))
-      .then((response) => response.json())
-      .then((data) => {});
+      .then((response) => response.json());
   };
 
   useEffect(() => {
@@ -55,11 +56,11 @@ const Meta = () => {
 
   // GET
   const fetchMeta = () => {
-    const kueBaru = Cookies.get('refToken');
+    const kueBaru = Cookies.get('token');
     axios
-      .get(urlGet, {
+      .get(`${baseUrl}/metas`, {
         headers: {
-          Token: `${kueBaru}`,
+          Authorization: `Bearer ${kueBaru}`,
         },
       })
       .then((res) => {
@@ -72,6 +73,32 @@ const Meta = () => {
     fetchMeta();
   }, [isSubmit]);
 
+  useEffect(() => {
+    const isLogin = Cookies.get('token');
+    if (!isLogin) {
+      alert('Anda harus login!');
+      navigate('/login');
+    }
+  }, []);
+
+  //DELETE
+  const deleteMeta = async (id) => {
+    const setCookies = Cookies.get('token');
+    try {
+      await axios.delete(`${baseUrl}/banner/${id}`, {
+        headers: {
+          Authorization: `Bearer ${setCookies}`,
+        },
+      });
+      alert('data berhasil di hapus');
+      fetchMeta();
+    } catch (error) {
+      alert('Anda harus login');
+      navigate('/login');
+    }
+  };
+
+  //Validate
   const validate = (values) => {
     const errors = {};
 
