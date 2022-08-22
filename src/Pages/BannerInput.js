@@ -143,10 +143,10 @@ const BannerInput = () => {
               <span className='label-text'>Alternative</span>
             </label>
             <input
-              type='text'
+              type='file'
               name='alt'
               placeholder='alt'
-              className='input input-bordered w-full max-w-sm'
+              className='flex justify-center items-center'
               value={data.alt}
               onChange={(e) => handleChange(e)}
             />
@@ -190,11 +190,13 @@ const BannerInput = () => {
               <tr key={Data?.id}>
                 <td>{Data?.id}</td>
                 <td>{Data?.banner}</td>
-                <td>{Data?.alt}</td>
+                <td>
+                  <img src={Data?.alt} alt='gambar' className='w-24 h-24' />
+                </td>
                 <td>{Data?.link}</td>
                 <td>
                   <div className='flex gap-4'>
-                    <Link to={`/auth/banner/${Data?.id}`} state={{ Data }}>
+                    <Link to={`/banner/${Data?.id}`} state={{ Data }}>
                       <Tooltip title='Edit' arrow>
                         <div className='cursor-pointer hover:text-sky-400'>
                           <svg
