@@ -178,7 +178,7 @@ const BannerInput = () => {
         <table className='table w-full'>
           <thead>
             <tr>
-              <th>ID</th>
+              <td>ID</td>
               <th>Banner</th>
               <th>Alternative</th>
               <th>Link</th>
@@ -186,17 +186,19 @@ const BannerInput = () => {
             </tr>
           </thead>
           <tbody>
-            {newData?.map((Data, index) => (
-              <tr key={Data?.id}>
-                <td>{Data?.id}</td>
-                <td>{Data?.banner}</td>
+            {newData?.map((data, index) => (
+              <tr key={data?.id}>
+                <td>{data?.id}</td>
+                <td>{data?.banner}</td>
                 <td>
-                  <img src={Data?.alt} alt='gambar' className='w-24 h-24' />
+                  <figure>
+                    <img src={data?.link} alt='gambar' width={100} />
+                  </figure>
                 </td>
-                <td>{Data?.link}</td>
+                <td>{data?.link}</td>
                 <td>
                   <div className='flex gap-4'>
-                    <Link to={`/banner/${Data?.id}`} state={{ Data }}>
+                    <Link to={`/banner/${data.id}`} state={{ data }}>
                       <Tooltip title='Edit' arrow>
                         <div className='cursor-pointer hover:text-sky-400'>
                           <svg
@@ -218,7 +220,7 @@ const BannerInput = () => {
                     <Tooltip title='Delete' arrow>
                       <div
                         className='cursor-pointer hover:text-red-400'
-                        onClick={() => deleteUsers(Data.id)}
+                        onClick={() => deleteUsers(data.id)}
                         // onClick={deleteBanner()}
                       >
                         <svg
