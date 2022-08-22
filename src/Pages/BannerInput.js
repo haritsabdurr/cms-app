@@ -194,7 +194,7 @@ const BannerInput = () => {
                 <td>{Data?.link}</td>
                 <td>
                   <div className='flex gap-4'>
-                    <Link to={`/banner/${Data?.id}`} state={{ Data }}>
+                    <Link to={`/auth/banner/${Data?.id}`} state={{ Data }}>
                       <Tooltip title='Edit' arrow>
                         <div className='cursor-pointer hover:text-sky-400'>
                           <svg

@@ -122,7 +122,7 @@ function Navigation() {
         </div>
         <div className='navbar-end'>
           {token ? (
-            <a className='btn btn-danger' onClick={logoutHandler}>
+            <a className='btn btn-warning' onClick={logoutHandler}>
               Logout
             </a>
           ) : (
