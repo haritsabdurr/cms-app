@@ -5,7 +5,7 @@ import About from './Pages/About';
 import Meta from './Pages/Meta';
 import Login from './Pages/Login';
 import NotFound from './Pages/NotFound';
-import Navigation from './Components/Navigation';
+import NavigationBar from './Components/NavigationBar';
 import Footer from './Components/Footer';
 import Register from './Pages/Register';
 import BannerInput from './Pages/BannerInput';
@@ -16,7 +16,7 @@ import User from './Pages/User';
 export default function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
-      <Navigation />
+      <NavigationBar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/meta' element={<Meta />} />
