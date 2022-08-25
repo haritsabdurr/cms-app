@@ -6,7 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const BannerInput = () => {
   const navigate = useNavigate();
-  const baseUrl = `http://192.168.17.144:8888/auth`;
+  const baseUrl = `http://192.168.17.144:8888`;
 
   const [data, setData] = useState({
     banner: '',
@@ -40,7 +40,7 @@ const BannerInput = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${kue}`,
+            Token: `${kue}`,
           },
         }
       )
@@ -61,7 +61,7 @@ const BannerInput = () => {
     axios
       .get(`${baseUrl}/banners`, {
         headers: {
-          Authorization: `Bearer ${kueBaru}`,
+          Token: `${kueBaru}`,
         },
       })
       .then((res) => {
@@ -88,13 +88,12 @@ const BannerInput = () => {
     try {
       await axios.delete(`${baseUrl}/banner/${id}`, {
         headers: {
-          Authorization: `Bearer ${setCookies}`,
+          Token: `${setCookies}`,
         },
       });
       alert('data berhasil di hapus');
       fetchBanner();
     } catch (error) {
-      alert('Anda harus login');
       navigate('/login');
     }
   };
@@ -195,7 +194,9 @@ const BannerInput = () => {
                     <img src={data?.link} alt='gambar' width={100} />
                   </figure>
                 </td>
-                <td>{data?.link}</td>
+                <td className='w-[1rem]'>
+                  <p className='truncate ...'>{data?.link}</p>
+                </td>
                 <td>
                   <div className='flex gap-4'>
                     <Link to={`/banner/${data.id}`} state={{ data }}>

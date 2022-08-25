@@ -24,7 +24,7 @@ const NavigationBar = () => {
   return (
     <div className='bg-slate-800 shadow-md'>
       <div className='px-6 mx-auto'>
-        <div className='flex items-center justify-between h-14'>
+        <div className='flex items-center justify-between h-16'>
           {/* Logo */}
           <div>
             <a href='/'>
@@ -37,7 +37,7 @@ const NavigationBar = () => {
             <ul className='flex items-center gap-2 text-sm'>
               <li>
                 <a
-                  className='text-white px-2 pb-[19px] pt-[14px] hover:bg-white hover:text-black cursor-pointer duration-150'
+                  className='text-white px-2 pb-[14px] pt-[14px] rounded-md hover:bg-white hover:text-black active:bg-white active:text-black cursor-pointer duration-150 ease-in-out'
                   onClick={() => navigate('/')}
                 >
                   Home
@@ -45,7 +45,7 @@ const NavigationBar = () => {
               </li>
               <li>
                 <a
-                  className='text-white px-2 pb-[19px] pt-[14px] hover:bg-white hover:text-black cursor-pointer duration-150'
+                  className='text-white px-2 pb-[14px] pt-[14px] rounded-md hover:bg-white hover:text-black active:bg-white active:text-black cursor-pointer duration-150 ease-in-out'
                   onClick={() => navigate('/meta')}
                 >
                   Meta
@@ -53,7 +53,7 @@ const NavigationBar = () => {
               </li>
               <li>
                 <a
-                  className='text-white px-2 pb-[19px] pt-[14px] hover:bg-white hover:text-black cursor-pointer duration-150'
+                  className='text-white px-2 pb-[14px] pt-[14px] rounded-md hover:bg-white hover:text-black active:bg-white active:text-black cursor-pointer duration-150 ease-in-out'
                   onClick={() => navigate('/banner')}
                 >
                   Banner
@@ -61,7 +61,7 @@ const NavigationBar = () => {
               </li>
               <li>
                 <a
-                  className='text-white px-2 pb-[19px] pt-[14px] hover:bg-white hover:text-black cursor-pointer duration-150'
+                  className='text-white px-2 pb-[14px] pt-[14px] rounded-md hover:bg-white hover:text-black active:bg-white active:text-black cursor-pointer duration-150 ease-in-out'
                   onClick={() => navigate('/kategori')}
                 >
                   Kategori
@@ -105,16 +105,14 @@ const NavigationBar = () => {
             </Tooltip>
           ) : (
             <div>
-              <Button
-                variant='contained'
-                size='small'
-                color='secondary'
+              <button
+                className='btn btn-primary'
                 onClick={() => {
                   navigate('/login');
                 }}
               >
                 Login
-              </Button>
+              </button>
             </div>
           )}
         </div>

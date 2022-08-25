@@ -12,6 +12,7 @@ import BannerInput from './Pages/BannerInput';
 import Kategori from './Pages/Kategori';
 import BannerUpdate from './Pages/BannerUpdate';
 import User from './Pages/User';
+import MetaUpdate from './Pages/MetaUpdate';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/meta' element={<Meta />} />
+        <Route path='/meta/:metaId' element={<MetaUpdate />} />
         <Route path='/banner' element={<BannerInput />} />
         <Route path='/banner/:bannerId' element={<BannerUpdate />} />
         <Route path='/kategori' element={<Kategori />} />

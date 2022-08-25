@@ -18,8 +18,6 @@ const Kategori = () => {
     harga_beli: '',
   });
 
-  //   const initialValues = { fName: '', lName: '', email: '', password: '' };
-  //   const [formValues, setFormValues] = useState(initialValues);
   const [newData, setNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
