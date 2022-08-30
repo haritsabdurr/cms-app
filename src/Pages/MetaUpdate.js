@@ -7,25 +7,24 @@ const MetaUpdate = (Data) => {
   const navigate = useNavigate();
   const baseUrl = `http://192.168.17.144:8888`;
 
-  const [data, setData] = useState({
-    meta_title: '',
-    meta_url: '',
-    meta_descrption: '',
-  });
+  const [title, setTitle] = useState('');
+  const [url, setUrl] = useState('');
+  const [description, setDescription] = useState('');
+
+  // const [data, setData] = useState({
+  //   meta_title: '',
+  //   meta_url: '',
+  //   meta_descrption: '',
+  // });
   const [newData, getNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
 
   const { id } = useParams();
 
   const handleSumbit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(data));
+    // setFormErrors(validate(title, url, description));
     setIsSumbit((prev) => !prev);
 
     const setCookies = Cookies.get('refToken');
@@ -33,9 +32,9 @@ const MetaUpdate = (Data) => {
     axios.put(
       `${baseUrl}/meta/${id.metaId}`,
       {
-        meta_title: data.meta_title,
-        meta_url: data.meta_url,
-        meta_descrption: data.meta_descrption,
+        title,
+        url,
+        description,
       },
       {
         headers: {
@@ -50,7 +49,7 @@ const MetaUpdate = (Data) => {
   useEffect(() => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(data);
+      console.log(title, url, description);
     }
   }, [formErrors]);
 
@@ -65,9 +64,7 @@ const MetaUpdate = (Data) => {
       },
     });
     console.log(response.data.Data);
-    getNewData(response.data.Data.meta_title);
-    setData.meta_url(response.data.Data.meta_url);
-    setData.meta_descrption(response.data.Data.meta_descrption);
+    getNewData(response.data.Data);
   };
 
   useEffect(() => {
@@ -105,8 +102,8 @@ const MetaUpdate = (Data) => {
               name='meta_title'
               placeholder='title'
               className='input input-bordered w-full max-w-sm'
-              value={data.meta_title}
-              onChange={(e) => handleChange(e)}
+              value={Data.meta_title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
               {formErrors.meta_title}
@@ -119,10 +116,9 @@ const MetaUpdate = (Data) => {
             <input
               type='text'
               name='meta_url'
-              placeholder={newData.meta_url}
               className='input input-bordered w-full max-w-sm'
-              value={data.meta_url}
-              onChange={(e) => handleChange(e)}
+              value={Data.met_url}
+              onChange={(e) => setUrl(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
               {formErrors.meta_url}
@@ -137,8 +133,8 @@ const MetaUpdate = (Data) => {
               name='meta_descrption'
               placeholder={newData.meta_descrption}
               className='input input-bordered w-full max-w-sm'
-              value={data.meta_descrption}
-              onChange={(e) => handleChange(e)}
+              value={newData.meta_descrption}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
               {formErrors.meta_descrption}
