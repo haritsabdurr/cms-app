@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const MetaUpdate = (Data) => {
+const MetaUpdate = () => {
   const navigate = useNavigate();
   const baseUrl = `http://192.168.17.144:8888`;
 
@@ -11,16 +11,8 @@ const MetaUpdate = (Data) => {
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
 
-  // const [data, setData] = useState({
-  //   meta_title: '',
-  //   meta_url: '',
-  //   meta_descrption: '',
-  // });
-  const [newData, getNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
-
-  const { id } = useParams();
 
   const handleSumbit = (e) => {
     e.preventDefault();
@@ -88,6 +80,7 @@ const MetaUpdate = (Data) => {
     }
     return errors;
   };
+
   return (
     <div className='px-6 md:px-24 justify-center bg-base-200 pt-12 pb-12'>
       <div className='mx-auto mt-12 form-control w-full px-6 py-6 max-w-lg bg-base-100 rounded-md shadow-xl'>
@@ -118,6 +111,7 @@ const MetaUpdate = (Data) => {
             <input
               type='text'
               name='meta_url'
+              placeholder='url'
               className='input input-bordered w-full max-w-sm'
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -133,7 +127,7 @@ const MetaUpdate = (Data) => {
             <input
               type='text'
               name='meta_descrption'
-              placeholder={newData.meta_descrption}
+              placeholder='description'
               className='input input-bordered w-full max-w-sm'
               value={description}
               onChange={(e) => setDescription(e.target.value)}
