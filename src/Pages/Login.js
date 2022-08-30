@@ -5,9 +5,9 @@ import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 
 const Login = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const baseUrl = `http://192.168.17.144:8888`;
 
-  const url = `http://192.168.17.144:8888/login`;
   const [data, setData] = useState({ email: '', password: '' });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
@@ -23,7 +23,7 @@ const Login = () => {
     setIsSumbit(true);
 
     axios
-      .post(url, {
+      .post(`${baseUrl}/users/login`, {
         email: data.email,
         password: data.password,
       })
@@ -32,8 +32,6 @@ const Login = () => {
         var token = data.data.token;
         var decoded = jwt_decode(token);
 
-        console.log(data.data.token);
-        console.log(data.data.refresh_token);
         Cookies.set('token', data.data.token);
         Cookies.set('refToken', data.data.refresh_token);
         console.log(decoded);
@@ -41,9 +39,9 @@ const Login = () => {
         navigate('/');
       })
       .catch((err) => {
+        alert('Data login tidak sesuai!');
         console.log(err.message);
       });
-    // .then((data) => setData(data.fname));
   };
 
   useEffect(() => {
@@ -55,25 +53,16 @@ const Login = () => {
 
   const validate = (values) => {
     const errors = {};
-    const regex =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
     if (!values.email) {
       errors.email = 'Email is required!';
     }
-    // if (values.email !== 'admin') {
-    //   errors.email = 'Invalid Email!';
-    // }
-    // else if (!regex.test(values.email)) {
-    //   errors.email = 'Email is invalid!';
-    // }
     if (!values.password) {
       errors.password = 'Password is required!';
     }
-    // if (values.password !== 'admin') {
-    //   errors.password = 'Invalid Password!';
-    // }
     return errors;
   };
+
   return (
     <div className='px-6 md:px-24 justify-center bg-base-200 h-[90vh] pt-12'>
       <div className='mx-auto mt-12 form-control w-full px-6 py-6 max-w-lg bg-base-100 rounded-md shadow-xl'>

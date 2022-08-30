@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { getDataFromArya, getDataFromArya2 } from '../api/member';
 
 const Register = () => {
   let navigate = useNavigate();
@@ -39,14 +38,8 @@ const Register = () => {
         Password: data.Password,
       })
       .then((response) => response.json())
-      .then(alert('Registrasi Berhasil'))
-      .then((data) => setData(data))
-      .catch((error) => alert(error.message));
-
-    // e.preventDefault();
-    // const response = getDataFromArya()
-    //   .then((response) => response.json())
-    //   .then((data) => setData(data.fname));
+      .then(alert('Registrasi Berhasil'));
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -217,12 +210,7 @@ const Register = () => {
               {formErrors.Password}
             </p>
           </div>
-          <div
-            className='flex justify-center items-center py-6 mt-2'
-            onClick={() => {
-              navigate('/login');
-            }}
-          >
+          <div className='flex justify-center items-center py-6 mt-2'>
             <button>
               <a className='btn btn-primary px-3 py-1'>Submit</a>
             </button>

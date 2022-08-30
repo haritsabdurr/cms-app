@@ -3,74 +3,65 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const BannerUpdate = (Data) => {
+const BannerUpdate = () => {
   const navigate = useNavigate();
-  const baseUrl = `http://192.168.17.144:8888/auth`;
+  const baseUrl = `http://192.168.17.144:8888`;
 
-  const [data, setData] = useState({
-    banner: '',
-    alt: '',
-    link: '',
-  });
+  const [banner, setBanner] = useState('');
+  const [alt, setAlt] = useState('');
+  const [link, setLink] = useState('');
 
-  const [newData, setNewData] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
-
-  // POST
+  // PUT
   const handleSumbit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(data));
+    setFormErrors(validate(banner, alt, link));
     setIsSumbit((prev) => !prev);
 
-    const kue = Cookies.get('token');
+    const setCookies = Cookies.get('token');
 
-    axios
-      .put(
-        `${baseUrl}/banner/${id}`,
-        {
-          banner: data.banner,
-          alt: data.alt,
-          link: data.link,
+    axios.put(
+      `${baseUrl}/banner/${bannerId.bannerId}`,
+      {
+        banner: banner,
+        alt: alt,
+        link: link,
+      },
+      {
+        headers: {
+          Token: `${setCookies}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${kue}`,
-          },
-        }
-      )
-      .then(alert('Data berhasil di update!'));
-    navigate('/banner')
-      .then((response) => response.json())
-      .then((data) => {});
+      }
+    );
+    alert('Data berhasil di update!');
+    navigate('/banner');
   };
 
   useEffect(() => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(data);
+      console.log(banner, alt, link);
     }
   }, [formErrors]);
 
-  const { id } = useParams();
+  const bannerId = useParams();
 
   // GET
-  const fetchBanner = (data) => {
-    const kueBaru = Cookies.get('token');
+  const fetchBanner = () => {
+    const kueBaru = Cookies.get('refToken');
     axios
-      .get(`${baseUrl}/banner/${id}`, {
+      .get(`${baseUrl}/banner/${bannerId.bannerId}`, {
         headers: {
-          Authorization: `Bearer ${kueBaru}`,
+          Token: `${kueBaru}`,
         },
       })
       .then((res) => {
-        console.log(res.data);
-        setNewData(res.data.Data);
+        console.log(res.data.Data);
+        setBanner(res.data.Data.banner);
+        setAlt(res.data.Data.alt);
+        setLink(res.data.Data.link);
       });
   };
 
@@ -86,16 +77,16 @@ const BannerUpdate = (Data) => {
     }
   }, []);
 
-  const validate = (values) => {
+  const validate = () => {
     const errors = {};
 
-    if (!values.banner) {
+    if (!banner) {
       errors.banner = 'Field is required!';
     }
-    if (!values.alt) {
+    if (!alt) {
       errors.alt = 'Field is required!';
     }
-    if (!values.link) {
+    if (!link) {
       errors.link = 'Field is required!';
     }
     return errors;
@@ -116,8 +107,8 @@ const BannerUpdate = (Data) => {
               name='banner'
               placeholder='banner'
               className='input input-bordered w-full max-w-sm'
-              value={Data.banner}
-              onChange={(e) => handleChange(e)}
+              value={banner}
+              onChange={(e) => setBanner(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
               {formErrors.banner}
@@ -132,8 +123,8 @@ const BannerUpdate = (Data) => {
               name='alt'
               placeholder='alt'
               className='input input-bordered w-full max-w-sm'
-              value={data.alt}
-              onChange={(e) => handleChange(e)}
+              value={alt}
+              onChange={(e) => setAlt(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.alt}</p>
           </div>
@@ -146,8 +137,8 @@ const BannerUpdate = (Data) => {
               name='link'
               placeholder='link'
               className='input input-bordered w-full max-w-sm'
-              value={data.link}
-              onChange={(e) => handleChange(e)}
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.link}</p>
           </div>

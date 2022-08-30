@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Tooltip from '@mui/material/Tooltip';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Meta = () => {
   const navigate = useNavigate();
-  const baseUrl = `http://192.168.17.144:8888/auth`;
+  const baseUrl = `http://192.168.17.144:8888`;
 
   const [data, setData] = useState({
     meta_title: '',
@@ -27,7 +27,7 @@ const Meta = () => {
     setFormErrors(validate(data));
     setIsSumbit((prev) => !prev);
 
-    const kue = Cookies.get('token');
+    const setCookies = Cookies.get('refToken');
 
     axios
       .post(
@@ -39,7 +39,7 @@ const Meta = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${kue}`,
+            Token: `${setCookies}`,
           },
         }
       )
@@ -56,11 +56,11 @@ const Meta = () => {
 
   // GET
   const fetchMeta = () => {
-    const kueBaru = Cookies.get('token');
+    const setCookies = Cookies.get('refToken');
     axios
       .get(`${baseUrl}/metas`, {
         headers: {
-          Authorization: `Bearer ${kueBaru}`,
+          Token: `${setCookies}`,
         },
       })
       .then((res) => {
@@ -74,27 +74,26 @@ const Meta = () => {
   }, [isSubmit]);
 
   useEffect(() => {
-    const isLogin = Cookies.get('token');
+    const isLogin = Cookies.get('refToken');
     if (!isLogin) {
-      alert('Anda harus login!');
       navigate('/login');
     }
   }, []);
 
   //DELETE
   const deleteMeta = async (id) => {
-    const setCookies = Cookies.get('token');
+    console.log(id);
+    const setCookies = Cookies.get('refToken');
     try {
-      await axios.delete(`${baseUrl}/banner/${id}`, {
+      await axios.delete(`${baseUrl}/meta/${id}`, {
         headers: {
-          Authorization: `Bearer ${setCookies}`,
+          Token: `${setCookies}`,
         },
       });
       alert('data berhasil di hapus');
       fetchMeta();
     } catch (error) {
-      alert('Anda harus login');
-      navigate('/login');
+      alert(error.message);
     }
   };
 
@@ -194,25 +193,30 @@ const Meta = () => {
                 <td>{Data?.meta_descrption}</td>
                 <td>
                   <div className='flex gap-4'>
-                    <Tooltip title='Edit' arrow>
-                      <div className='cursor-pointer hover:text-sky-400'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          className='h-5 w-5'
-                          viewBox='0 0 20 20'
-                          fill='currentColor'
-                        >
-                          <path d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z' />
-                          <path
-                            fillRule='evenodd'
-                            d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-                            clipRule='evenodd'
-                          />
-                        </svg>
-                      </div>
-                    </Tooltip>
+                    <Link to={`/meta/${Data.id}`} state={{ Data }}>
+                      <Tooltip title='Edit' arrow>
+                        <div className='cursor-pointer hover:text-sky-400'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            className='h-5 w-5'
+                            viewBox='0 0 20 20'
+                            fill='currentColor'
+                          >
+                            <path d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z' />
+                            <path
+                              fillRule='evenodd'
+                              d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+                              clipRule='evenodd'
+                            />
+                          </svg>
+                        </div>
+                      </Tooltip>
+                    </Link>
                     <Tooltip title='Delete' arrow>
-                      <div className='cursor-pointer hover:text-red-400'>
+                      <div
+                        className='cursor-pointer hover:text-red-400'
+                        onClick={() => deleteMeta(Data.id)}
+                      >
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           className='h-5 w-5'
