@@ -77,16 +77,16 @@ const BannerUpdate = () => {
     }
   }, []);
 
-  const validate = () => {
+  const validate = (values) => {
     const errors = {};
 
-    if (!banner) {
+    if (!values.banner) {
       errors.banner = 'Field is required!';
     }
-    if (!alt) {
+    if (!values.alt) {
       errors.alt = 'Field is required!';
     }
-    if (!link) {
+    if (!values.link) {
       errors.link = 'Field is required!';
     }
     return errors;
