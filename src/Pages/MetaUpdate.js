@@ -30,11 +30,11 @@ const MetaUpdate = (Data) => {
     const setCookies = Cookies.get('refToken');
 
     axios.put(
-      `${baseUrl}/meta/${id.metaId}`,
+      `${baseUrl}/meta/${metaID.metaId}`,
       {
-        title,
-        url,
-        description,
+        meta_title: title,
+        meta_url: url,
+        meta_descrption: description,
       },
       {
         headers: {
@@ -64,7 +64,9 @@ const MetaUpdate = (Data) => {
       },
     });
     console.log(response.data.Data);
-    getNewData(response.data.Data);
+    setTitle(response.data.Data.meta_title);
+    setUrl(response.data.Data.meta_url);
+    setDescription(response.data.Data.meta_descrption);
   };
 
   useEffect(() => {
@@ -102,7 +104,7 @@ const MetaUpdate = (Data) => {
               name='meta_title'
               placeholder='title'
               className='input input-bordered w-full max-w-sm'
-              value={Data.meta_title}
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
@@ -117,7 +119,7 @@ const MetaUpdate = (Data) => {
               type='text'
               name='meta_url'
               className='input input-bordered w-full max-w-sm'
-              value={Data.met_url}
+              value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
@@ -133,7 +135,7 @@ const MetaUpdate = (Data) => {
               name='meta_descrption'
               placeholder={newData.meta_descrption}
               className='input input-bordered w-full max-w-sm'
-              value={newData.meta_descrption}
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
