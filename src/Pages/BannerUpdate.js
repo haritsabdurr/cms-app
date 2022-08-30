@@ -49,7 +49,7 @@ const BannerUpdate = () => {
   const bannerId = useParams();
 
   // GET
-  const fetchBanner = (id) => {
+  const fetchBanner = () => {
     const kueBaru = Cookies.get('refToken');
     axios
       .get(`${baseUrl}/banner/${bannerId.bannerId}`, {
@@ -58,7 +58,7 @@ const BannerUpdate = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.Data);
         setBanner(res.data.Data.banner);
         setAlt(res.data.Data.alt);
         setLink(res.data.Data.link);
@@ -81,15 +81,12 @@ const BannerUpdate = () => {
     const errors = {};
 
     if (!banner) {
-      alert('field is required');
       errors.banner = 'Field is required!';
     }
     if (!alt) {
-      alert('field is required');
       errors.alt = 'Field is required!';
     }
     if (!link) {
-      alert('field is required');
       errors.link = 'Field is required!';
     }
     return errors;
@@ -113,7 +110,9 @@ const BannerUpdate = () => {
               value={banner}
               onChange={(e) => setBanner(e.target.value)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>{banner}</p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>
+              {formErrors.banner}
+            </p>
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
