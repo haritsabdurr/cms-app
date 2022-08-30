@@ -7,6 +7,7 @@ const MetaUpdate = () => {
   const navigate = useNavigate();
   const baseUrl = `http://192.168.17.144:8888`;
 
+  // state
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
@@ -14,9 +15,12 @@ const MetaUpdate = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSumbit] = useState(false);
 
+  const metaID = useParams();
+
+  // UPDATE
   const handleSumbit = (e) => {
     e.preventDefault();
-    // setFormErrors(validate(title, url, description));
+    setFormErrors(validate(title, url, description));
     setIsSumbit((prev) => !prev);
 
     const setCookies = Cookies.get('refToken');
@@ -44,8 +48,6 @@ const MetaUpdate = () => {
       console.log(title, url, description);
     }
   }, [formErrors]);
-
-  const metaID = useParams();
 
   // GET
   const fetchMeta = async () => {

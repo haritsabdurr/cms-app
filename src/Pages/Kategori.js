@@ -5,8 +5,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 
 const Kategori = () => {
-  const url = `http://192.168.17.144:8888/kategori`;
-  const urlGet = `http://192.168.17.144:8888/kategoris`;
+  const baseUrl = `http://192.168.17.144:8888`;
+
   const [data, setData] = useState({
     kode_produk: null,
     kategori_produk: '',
@@ -33,11 +33,11 @@ const Kategori = () => {
     setFormErrors(validate(data));
     setIsSumbit((prev) => !prev);
 
-    const kue = Cookies.get('refToken');
+    const setCookies = Cookies.get('refToken');
 
     axios
       .post(
-        url,
+        `${baseUrl}/kategori`,
         {
           kode_produk: data.kode_produk,
           kategori_produk: data.kategori_produk,
@@ -50,7 +50,7 @@ const Kategori = () => {
         },
         {
           headers: {
-            Token: `${kue}`,
+            Token: `${setCookies}`,
           },
         }
       )
@@ -70,7 +70,7 @@ const Kategori = () => {
   const fetchKategori = () => {
     const kueBaru = Cookies.get('refToken');
     axios
-      .get(urlGet, {
+      .get(`${baseUrl}/kategoris`, {
         headers: {
           Token: `${kueBaru}`,
         },
