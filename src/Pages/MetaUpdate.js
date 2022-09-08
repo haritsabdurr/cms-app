@@ -71,14 +71,14 @@ const MetaUpdate = () => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.meta_title) {
-      errors.meta_title = 'Field is required!';
+    if (title.length === 0) {
+      errors.title = 'Field is required!';
     }
-    if (!values.meta_url) {
-      errors.meta_url = 'Field is required!';
+    if (url.length === 0) {
+      errors.url = 'Field is required!';
     }
-    if (!values.meta_descrption) {
-      errors.meta_descrption = 'Field is required!';
+    if (description.length === 0) {
+      errors.description = 'Field is required!';
     }
     return errors;
   };
@@ -102,9 +102,7 @@ const MetaUpdate = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>
-              {formErrors.meta_title}
-            </p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.title}</p>
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
@@ -118,9 +116,7 @@ const MetaUpdate = () => {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>
-              {formErrors.meta_url}
-            </p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.url}</p>
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
@@ -135,7 +131,7 @@ const MetaUpdate = () => {
               onChange={(e) => setDescription(e.target.value)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
-              {formErrors.meta_descrption}
+              {formErrors.descrption}
             </p>
           </div>
           <div className='flex justify-center items-center py-6 mt-2'>

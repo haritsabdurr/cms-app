@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
 
-const Kategori = () => {
-  const navigate = useNavigate();
+const KategoriChild = () => {
   const baseUrl = `http://192.168.17.144:8888`;
 
   const [data, setData] = useState({
-    kategori_produk: '',
-    image: '',
+    nama_produk: '',
+    image_produk: '',
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -30,10 +28,10 @@ const Kategori = () => {
 
     axios
       .post(
-        `${baseUrl}/kategori`,
+        `${baseUrl}/kategori/child`,
         {
-          kategori_produk: data.kategori_produk,
-          image: data.image,
+          kategori_produk: data.nama_produk,
+          image: data.image_produk,
         },
         {
           headers: {
@@ -43,7 +41,6 @@ const Kategori = () => {
       )
       .then(alert('Data berhasil di input!'))
       .then((response) => response.json());
-    navigate('/kategori/child');
   };
 
   useEffect(() => {
@@ -53,22 +50,15 @@ const Kategori = () => {
     }
   }, [formErrors]);
 
-  useEffect(() => {
-    const isLogin = Cookies.get('refToken');
-    if (!isLogin) {
-      navigate('/login');
-    }
-  }, []);
-
   //Validate
   const validate = (values) => {
     const errors = {};
 
-    if (!values.kategori_produk) {
-      errors.kategori_produk = 'Field is required!';
+    if (!values.nama_produk) {
+      errors.nama_produk = 'Field is required!';
     }
-    if (!values.image) {
-      errors.image = 'Field is required!';
+    if (!values.image_produk) {
+      errors.image_produk = 'Field is required!';
     }
 
     return errors;
@@ -82,33 +72,49 @@ const Kategori = () => {
         <form onSubmit={handleSumbit}>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
-              <span className='label-text'>Kategori Produk</span>
+              <span className='label-text'>ID Kategori</span>
             </label>
             <input
               type='text'
-              name='kategori_produk'
-              placeholder='kode produk'
+              name='nama_produk'
+              placeholder='nama produk'
               className='input input-bordered w-full max-w-sm'
-              value={data.kategori_produk}
+              value='02398847777232'
+              onChange={(e) => handleChange(e)}
+              disabled
+            />
+          </div>
+          <div className='flex flex-col justify-center items-center'>
+            <label className='label'>
+              <span className='label-text'>Nama Produk</span>
+            </label>
+            <input
+              type='text'
+              name='nama_produk'
+              placeholder='nama produk'
+              className='input input-bordered w-full max-w-sm'
+              value={data.nama_produk}
               onChange={(e) => handleChange(e)}
             />
             <p className='text-xs text-red-500 ml-3 mt-1'>
-              {formErrors.kategori_produk}
+              {formErrors.nama_produk}
             </p>
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className='label'>
-              <span className='label-text'>Image Kategori</span>
+              <span className='label-text'>Image Produk</span>
             </label>
             <input
               type='text'
-              name='image'
-              placeholder='gambar kategori'
+              name='image_produk'
+              placeholder='gambar produk'
               className='input input-bordered w-full max-w-sm'
-              value={data.image}
+              value={data.image_produk}
               onChange={(e) => handleChange(e)}
             />
-            <p className='text-xs text-red-500 ml-3 mt-1'>{formErrors.image}</p>
+            <p className='text-xs text-red-500 ml-3 mt-1'>
+              {formErrors.image_produk}
+            </p>
           </div>
           <div className='flex justify-center items-center py-6 mt-2'>
             <button>
@@ -121,4 +127,4 @@ const Kategori = () => {
   );
 };
 
-export default Kategori;
+export default KategoriChild;

@@ -64,7 +64,7 @@ const Meta = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.status);
         getNewData(res.data.Data);
       });
   };
